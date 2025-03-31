@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useGameState } from '../hooks/useGameState';
 import { GamePhase } from '../constants/gamePhases';
+import { dilemmas } from '../constants/dilemmas'; // 👈 Добавь это
+
 
 const ScenePhase: React.FC = () => {
   const { gameState, setGameState } = useGameState();
@@ -8,10 +10,12 @@ const ScenePhase: React.FC = () => {
   useEffect(() => {
     // Если в текущей сцене ещё нет дилеммы, устанавливаем её
     if (!gameState.scenes[gameState.currentScene].dilemma) {
-      // Создаём новую копию массива сцен, изменяя только текущую сцену
+      const randomDilemma =
+        dilemmas[gameState.currentScene % dilemmas.length]; // 👈 Простой способ
+  
       const newScenes = gameState.scenes.map((scene, index) =>
         index === gameState.currentScene
-          ? { ...scene, dilemma: 'Пример дилеммы: Вы нашли кошелек с деньгами. Что делать?' }
+          ? { ...scene, dilemma: randomDilemma }
           : scene
       );
 

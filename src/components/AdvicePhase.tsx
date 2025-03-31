@@ -4,30 +4,21 @@ import { useGameState } from '../hooks/useGameState';
 import { PlayerRole } from '../constants/roles';
 import { GamePhase } from '../constants/gamePhases';
 
-interface AdvicePhaseProps {
-  role: PlayerRole;
-}
-
-const AdvicePhase: React.FC<AdvicePhaseProps> = ({ role }) => {
-  console.log(`Hello ${myPlayer().getProfile().name}!`);
-  console.log(`Your role is ${role}`);
+const AdvicePhase: React.FC = () => {
   const { gameState, setGameState } = useGameState();
   const [advice, setAdvice] = useState('');
-
-  // Если роль "life", игрок только ждет советов от остальных
-  if (role === PlayerRole.Life) {
-    return <div>Ожидайте советы от ангелов и демонов...</div>;
-  }
+  const playerId = myPlayer().id;
+  const role = gameState.players[playerId]?.role;
+  const dilemma = gameState.scenes[gameState.currentScene].dilemma;
 
   const submitAdvice = () => {
     const state = { ...gameState };
-    const playerId = myPlayer().id;
     state.scenes[state.currentScene].advices[playerId] = advice;
 
-    // Проверяем, все ли игроки с ролями, отличными от Life, отправили советы
     const nonLifePlayers = Object.keys(state.players).filter(
       (id) => state.players[id].role !== PlayerRole.Life
     );
+
     if (
       Object.keys(state.scenes[state.currentScene].advices).length ===
       nonLifePlayers.length
@@ -41,9 +32,21 @@ const AdvicePhase: React.FC<AdvicePhaseProps> = ({ role }) => {
 
   return (
     <div>
-      <p>Напишите свой совет:</p>
-      <textarea value={advice} onChange={(e) => setAdvice(e.target.value)} />
-      <button onClick={submitAdvice}>Отправить</button>
+      <p><strong>Дилемма:</strong> {dilemma}</p>
+      {role === PlayerRole.Life ? (
+        <p>Ожидание советов от ангелов и демонов...</p>
+      ) : (
+        <div>
+          <p>Введите ваш совет:</p>
+          <textarea
+            value={advice}
+            onChange={(e) => setAdvice(e.target.value)}
+          />
+          <button onClick={submitAdvice} disabled={!advice.trim()}>
+            Отправить
+          </button>
+        </div>
+      )}
     </div>
   );
 };
