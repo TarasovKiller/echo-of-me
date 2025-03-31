@@ -1,4 +1,5 @@
 import React from 'react';
+import { isHost } from 'playroomkit'; // 👈 импортируем isHost
 import { useGameState } from '../hooks/useGameState';
 import { GamePhase } from '../constants/gamePhases';
 
@@ -7,18 +8,20 @@ const SetupPhase: React.FC = () => {
 
   const startGame = () => {
     const newState = {
-        ...gameState,
-        phase: GamePhase.Scene as GamePhase.Scene,
-        scenes: [{ dilemma: "", advices: {}, chosenAdvice: null }],
-      };
-      setGameState(newState);
+      ...gameState,
+      phase: GamePhase.Scene,
+      scenes: [{ dilemma: '', advices: {}, chosenAdvice: null }],
+    };
+    setGameState(newState);
   };
+
+  const enoughPlayers = Object.keys(gameState.players).length >= 2;
 
   return (
     <div>
       <p>Ожидание подключения игроков...</p>
       <p>Подключено игроков: {Object.keys(gameState.players).length}</p>
-      {Object.keys(gameState.players).length >= 2 && (
+      {enoughPlayers && isHost() && ( // 👈 проверяем, что это хост
         <button onClick={startGame}>Начать игру</button>
       )}
     </div>
