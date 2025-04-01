@@ -19,11 +19,7 @@ function assignPlayerRole(players: GameState['players'], player: any): GameState
   }
 
   const hasLife = Object.values(players).some((p) => p.role === PlayerRole.Life);
-  const assignedRole = hasLife
-    ? Math.random() < 0.5
-      ? PlayerRole.Angel
-      : PlayerRole.Demon
-    : PlayerRole.Life;
+  const assignedRole = hasLife ? PlayerRole.AdviceGiver : PlayerRole.Life;
 
   console.log(`Игрок ${player.id} подключился. Назначена роль: ${assignedRole}`);
   return {
@@ -71,7 +67,7 @@ const App: React.FC = () => {
     case GamePhase.Scene:
       return <ScenePhase />;
     case GamePhase.Advice:
-      return <AdvicePhase role={role} />;
+      return <AdvicePhase />;
     case GamePhase.Choice:
       return <ChoicePhase role={role} />;
     case GamePhase.Epilogue:

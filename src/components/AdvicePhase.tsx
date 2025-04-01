@@ -34,7 +34,7 @@ const AdvicePhase: React.FC = () => {
     <div>
       <p><strong>Дилемма:</strong> {dilemma}</p>
       {role === PlayerRole.Life ? (
-        <p>Ожидание советов от ангелов и демонов...</p>
+        <p>Ожидание советов...</p>
       ) : (
         <div>
           <p>Введите ваш совет:</p>

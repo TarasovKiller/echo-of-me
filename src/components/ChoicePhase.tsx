@@ -19,13 +19,13 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
     const state = { ...gameState };
     state.scenes[state.currentScene].chosenAdvice = playerId;
 
-    // Обновляем soulVector
-    const adviceAuthor = state.players[playerId];
-    if (adviceAuthor.role === PlayerRole.Angel) {
-      state.soulVector += 1;
-    } else if (adviceAuthor.role === PlayerRole.Demon) {
-      state.soulVector -= 1;
-    }
+    // // Обновляем soulVector
+    // const adviceAuthor = state.players[playerId];
+    // if (adviceAuthor.role === PlayerRole.AdviceGiver) {
+    //   state.soulVector += 1;
+    // } else if (adviceAuthor.role === PlayerRole.Demon) {
+    //   state.soulVector -= 1;
+    // }
 
     // Переход к следующей сцене или эпилогу
     if (state.currentScene < 4) {
