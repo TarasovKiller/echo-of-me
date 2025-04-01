@@ -13,8 +13,8 @@ const EpiloguePhase: React.FC = () => {
   return (
     <div>
       <p>Игра окончена!</p>
-      <p>{getEpilogue(gameState.soulVector)}</p>
-      <p>Вектор души: {gameState.soulVector}</p>
+      {/* <p>{getEpilogue(gameState.lifeTraits)}</p> */}
+      {/* <p>Вектор души: {gameState.soulVector}</p> */}
     </div>
   );
 };

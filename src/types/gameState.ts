@@ -1,5 +1,7 @@
 import { PlayerRole } from '../constants/roles';
 import { GamePhase } from '../constants/gamePhases';
+import { LifeTraits } from './life';
+import { Dilemma } from './dilemma'; // создадим тип отдельно
 
 export interface GameState {
     phase: GamePhase; // Текущая фаза игры
@@ -10,11 +12,12 @@ export interface GameState {
     };
     currentScene: number; // Номер текущей сцены
     scenes: Array<{
-      dilemma: string; // Текст дилеммы
+      dilemma: Dilemma | null; // Текст дилеммы
       advices: {
         [playerId: string]: string; // Советы от ангелов и демонов
       };
       chosenAdvice: string | null; // Выбранный совет (ID игрока)
     }>;
-    soulVector: number; // Вектор души (от -5 до +5)
+    lifeTraits: LifeTraits;
+
   }
