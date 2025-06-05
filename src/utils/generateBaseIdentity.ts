@@ -10,3 +10,4 @@ export function generateAge(): number {
 export function generateGender(): Gender {
   return Math.random() < 0.5 ? 'male' : 'female';
 }
+
