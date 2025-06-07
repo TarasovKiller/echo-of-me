@@ -1,10 +1,10 @@
 import React from 'react';
 import { isHost } from 'playroomkit'; // 👈 импортируем isHost
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 
 const SetupPhase: React.FC = () => {
-  const { gameState, setGameState } = useGameState();
+  const { gameState, setGameState } = useOptimizedGameState();
 
   const startGame = () => {
     const newState = {

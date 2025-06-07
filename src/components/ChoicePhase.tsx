@@ -1,7 +1,7 @@
 // src/components/ChoicePhase.tsx
 
 import React from 'react';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { PlayerRole } from '../constants/roles';
 import { calculateAdviceImpact } from '../utils/calculateAdviceImpact';
@@ -12,7 +12,7 @@ interface ChoicePhaseProps {
 }
 
 const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
-  const { gameState, setGameState } = useGameState();
+  const { gameState, setGameState } = useOptimizedGameState();
   const currentSceneData = gameState.scenes[gameState.currentScene];
   const advices = currentSceneData.advices;
   const dilemma = currentSceneData.dilemma;

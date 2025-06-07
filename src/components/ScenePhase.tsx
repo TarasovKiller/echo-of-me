@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { Dilemma } from '../types/dilemma';
 
@@ -11,7 +11,7 @@ const generateDilemma = (): Dilemma => ({
 });
 
 const ScenePhase: React.FC = () => {
-  const { gameState, setGameState } = useGameState();
+  const { gameState, setGameState } = useOptimizedGameState();
 
   useEffect(() => {
     if (!gameState.scenes[gameState.currentScene].dilemma) {
