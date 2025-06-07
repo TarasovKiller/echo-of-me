@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { myPlayer } from 'playroomkit';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { PlayerRole } from '../constants/roles';
 import { GamePhase } from '../constants/gamePhases';
 
 const AdvicePhase: React.FC = () => {
-  const { gameState, setGameState } = useGameState();
+  const { gameState, setGameState } = useOptimizedGameState();
   const [advice, setAdvice] = useState('');
   const playerId = myPlayer().id;
   const role = gameState.players[playerId]?.role;

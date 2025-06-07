@@ -7,18 +7,20 @@ export type AtmosphereTone =
   | 'oppressive'
   | 'inspiring'
   | 'eerie'
-  | 'vibrant';
+  | 'vibrant'
+  | 'dramatic';
 
 // Атмосферы с весами для генерации
 export const ATMOSPHERE_POOL: { value: AtmosphereTone; weight: number }[] = [
-  { value: 'tender', weight: 3 },
+  { value: 'tender', weight: 2 },
   { value: 'chaotic', weight: 2 },
   { value: 'cold', weight: 2 },
   { value: 'neutral', weight: 2 },
   { value: 'melancholic', weight: 2 },
-  { value: 'oppressive', weight: 1 },
+  { value: 'oppressive', weight: 2 },
   { value: 'inspiring', weight: 2 },
-  { value: 'eerie', weight: 1 },
+  { value: 'eerie', weight: 2 },
+  { value: 'dramatic', weight: 2 },
   { value: 'vibrant', weight: 1 },
 ];
 
@@ -32,5 +34,6 @@ export const ATMOSPHERE_LABELS: Record<AtmosphereTone, string> = {
   oppressive: 'угнетающая',
   inspiring: 'вдохновляющая',
   eerie: 'тревожная',
+  dramatic: 'драматичная',
   vibrant: 'яркая',
 };

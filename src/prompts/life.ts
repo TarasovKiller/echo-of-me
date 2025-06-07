@@ -201,3 +201,29 @@ ${context}
 
 ❌ Без Markdown, заголовков, пояснений. Только JSON.
 `.trim();
+
+
+import { LifeBase } from '../utils/lifeGeneration';
+
+export const generateLifePrompt = (base: LifeBase): string => {
+  const step1 = valuesTemplateStr(base.gender, base.age, base.atmosphere);
+  const namePlaceholder = '{{name}}';
+  const valuesPlaceholder = '{{values}}';
+  const step2 = step2TemplateStr(
+    namePlaceholder,
+    base.age,
+    base.gender,
+    base.atmosphere,
+    valuesPlaceholder
+  );
+  const context = `{
+  "values": ${valuesPlaceholder},
+  "coreTraits": {{coreTraits}},
+  "hiddenDesire": "{{hiddenDesire}}",
+  "coreFear": "{{coreFear}}",
+  "atmosphere": "${base.atmosphere}"
+}`;
+  const step3 = step3TemplateStr(namePlaceholder, base.age, base.gender, context);
+  const finalInstruction = `На основе результатов трёх шагов собери единый JSON-объект со всеми полями персонажа: name, gender, age, atmosphere, culture, coreTraits, hiddenDesire, coreFear, philosophy, selfNarrative, awarenessLevel, moralCompass. Ответ только в виде JSON.`;
+  return [step1, '', step2, '', step3, '', finalInstruction].join('\n');
+};

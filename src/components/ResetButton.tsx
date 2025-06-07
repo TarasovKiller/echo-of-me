@@ -1,8 +1,8 @@
 import { setState } from 'playroomkit';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 
 function ResetButton() {
-  const { gameState } = useGameState();
+  const { gameState } = useOptimizedGameState();
 
   const resetGameState = () => {
     const newState = {
