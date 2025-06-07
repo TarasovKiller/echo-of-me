@@ -2,7 +2,8 @@
 
 import { Life } from '../src/models/Life';
 import { LifeProfile } from '../src/types/life';
-import { generateLifePrompt } from '../src/constants/prompts';
+import { generateLifePrompt } from '../src/prompts/life';
+import { LifeBase } from '../src/utils/lifeGeneration';
 
 // Абстрактный интерфейс модели (можно заменить на OpenAI, Mistral, DeepSeek и т.д.)
 export interface LLMClient {
@@ -16,12 +17,12 @@ export class LifeBuilder {
     this.llm = llm;
   }
 
-  public async createLife(): Promise<Life> {
+  public async createLife(base: LifeBase): Promise<Life> {
 
     
     let rawResponse: string;
     try {
-      rawResponse = await this.llm.generate(generateLifePrompt);
+      rawResponse = await this.llm.generate(generateLifePrompt(base));
     } catch (err) {
       throw new Error(`Ошибка вызова LLM: ${err}`);
     }
