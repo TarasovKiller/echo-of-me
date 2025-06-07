@@ -6,6 +6,10 @@ export type LifeTraits = {
   independence: number;
   guilt: number;
   trust: number;
+  impulsivity: number;
+  manipulativeness: number;
+  shame: number;
+  resilience: number;
 };
 
 export type AdviceImpact = {
