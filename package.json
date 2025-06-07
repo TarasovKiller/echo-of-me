@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@huggingface/inference": "^3.6.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -14,16 +15,18 @@
     "axios": "^1.8.4",
     "body-parse": "^0.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
     "express": "^4.21.2",
-    "openai": "^4.90.0",
+    "openai": "^4.91.0",
     "playroomkit": "^0.0.87",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "gen-life": "ts-node server/main.ts",
+    "preview:values": "ts-node scripts/preview-values.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,5 +49,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chalk": "^4.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   }
 }

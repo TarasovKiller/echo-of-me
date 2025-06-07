@@ -10,7 +10,7 @@ const SetupPhase: React.FC = () => {
     const newState = {
       ...gameState,
       phase: GamePhase.Scene,
-      scenes: [{ dilemma: '', advices: {}, chosenAdvice: null }],
+      scenes: [{dilemma: null, advices: {}, chosenAdvice: null }],
     };
     setGameState(newState);
   };

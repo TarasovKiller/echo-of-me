@@ -1,7 +1,11 @@
+// src/components/ChoicePhase.tsx
+
 import React from 'react';
 import { useGameState } from '../hooks/useGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { PlayerRole } from '../constants/roles';
+import { calculateAdviceImpact } from '../utils/calculateAdviceImpact';
+import { LifeTraits } from '../types/life';
 
 interface ChoicePhaseProps {
   role: PlayerRole;
@@ -9,7 +13,13 @@ interface ChoicePhaseProps {
 
 const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
   const { gameState, setGameState } = useGameState();
-  const advices = gameState.scenes[gameState.currentScene].advices;
+  const currentSceneData = gameState.scenes[gameState.currentScene];
+  const advices = currentSceneData.advices;
+  const dilemma = currentSceneData.dilemma;
+
+  if (!dilemma) {
+    return <div>Ошибка: дилемма не определена.</div>;
+  }
 
   if (role !== PlayerRole.Life) {
     return <div>Жизнь выбирает совет...</div>;
@@ -17,30 +27,44 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
 
   const chooseAdvice = (playerId: string) => {
     const state = { ...gameState };
+    const chosenAdviceText = state.scenes[state.currentScene].advices[playerId];
+
+    const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
+
+    // Обновляем выбранный совет
     state.scenes[state.currentScene].chosenAdvice = playerId;
 
-    // Обновляем soulVector
-    const adviceAuthor = state.players[playerId];
-    if (adviceAuthor.role === PlayerRole.Angel) {
-      state.soulVector += 1;
-    } else if (adviceAuthor.role === PlayerRole.Demon) {
-      state.soulVector -= 1;
+    // Обновим черты Жизни
+    for (const trait of Object.keys(impact.emotionalEffect)) {
+      const key = trait as keyof LifeTraits;
+      state.lifeTraits[key] += impact.emotionalEffect[key]!;
     }
 
-    // Переход к следующей сцене или эпилогу
+    // Обновим вектор души
+    // state.soulVector += impact.soulShift;
+
+    // Следующая сцена или эпилог
     if (state.currentScene < 4) {
       state.currentScene += 1;
       state.phase = GamePhase.Scene;
-      state.scenes.push({ dilemma: '', advices: {}, chosenAdvice: null });
+
+      // Добавим новую пустую сцену
+      state.scenes.push({
+        dilemma: null,
+        advices: {},
+        chosenAdvice: null,
+      });
     } else {
       state.phase = GamePhase.Epilogue;
     }
-    setGameState(state); // Передаем полное состояние
+
+    setGameState(state);
   };
 
   return (
     <div>
-      <p>Выберите совет:</p>
+      <p>Выберите совет для дилеммы:</p>
+      <p><strong>{dilemma.text}</strong></p>
       {Object.entries(advices).map(([playerId, advice]) => (
         <button key={playerId} onClick={() => chooseAdvice(playerId)}>
           {advice}

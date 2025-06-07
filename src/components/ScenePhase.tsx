@@ -1,21 +1,24 @@
 import React, { useEffect } from 'react';
 import { useGameState } from '../hooks/useGameState';
 import { GamePhase } from '../constants/gamePhases';
-import { dilemmas } from '../constants/dilemmas'; // 👈 Добавь это
+import { Dilemma } from '../types/dilemma';
 
+const generateDilemma = (): Dilemma => ({
+  id: `dilemma-${Date.now()}`,
+  text: 'Ты поймала подругу на лжи. Сказать ли ей об этом?',
+  importance: 0.7,
+  relatedTraits: ['trust', 'courage'],
+});
 
 const ScenePhase: React.FC = () => {
   const { gameState, setGameState } = useGameState();
 
   useEffect(() => {
-    // Если в текущей сцене ещё нет дилеммы, устанавливаем её
     if (!gameState.scenes[gameState.currentScene].dilemma) {
-      const randomDilemma =
-        dilemmas[gameState.currentScene % dilemmas.length]; // 👈 Простой способ
-  
+      const newDilemma = generateDilemma();
       const newScenes = gameState.scenes.map((scene, index) =>
         index === gameState.currentScene
-          ? { ...scene, dilemma: randomDilemma }
+          ? { ...scene, dilemma: newDilemma }
           : scene
       );
 
@@ -35,7 +38,7 @@ const ScenePhase: React.FC = () => {
 
   return (
     <div>
-      <p>Текущая дилемма: {gameState.scenes[gameState.currentScene].dilemma}</p>
+      <p>Текущая дилемма: {gameState.scenes[gameState.currentScene].dilemma?.text}</p>
     </div>
   );
 };
