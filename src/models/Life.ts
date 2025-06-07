@@ -8,6 +8,7 @@ import {
   AwarenessLevel,
   AdviceImpact
 } from '../types/life';
+import { AtmosphereTone } from '../constants/atmospheres';
 
 export class Life {
   /** 🏷 Идентификация и стартовые контексты */
@@ -15,7 +16,7 @@ export class Life {
   private gender: 'male' | 'female' | 'nonbinary';
   private age: number;
   private culture: LifeProfile['culture'];
-  private atmosphere: string;
+  private atmosphere: AtmosphereTone;
 
   /** 🧬 Врожденные черты — эмоциональные оси */
   private traits: LifeTraits;

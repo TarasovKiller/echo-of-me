@@ -1,5 +1,5 @@
 // src/types/life.ts
-
+import { AtmosphereTone } from '../constants/atmospheres';
 export type LifeTraits = {
   courage: number;
   empathy: number;
@@ -42,25 +42,13 @@ export interface MemoryEvent {
   round: number;                        // На каком этапе это произошло
 }
 
-export type LifeTone =
-  | 'dramatic'
-  | 'melancholic'
-  | 'inspiring'
-  | 'neutral'
-  | 'chaotic'
-  | 'tender'
-  | 'cold'
-  | 'oppressive'
-  | 'vibrant'
-  | 'eerie'
-  | string; // Расширяемость
 
 export interface LifeProfile {
   name: string;
   gender: 'male' | 'female' | 'nonbinary';
   age: number;
   culture: CultureContext;
-  atmosphere: LifeTone;
+  atmosphere: AtmosphereTone;
 
   coreTraits: LifeTraits;
   hiddenDesire: string;

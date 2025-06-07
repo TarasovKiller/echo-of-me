@@ -1,10 +1,10 @@
 // src/constants/atmosphereTraitMap.ts
 import { TraitName } from '../types/trait';
-import { LifeTone } from '../types/life';
+import { AtmosphereTone } from './atmospheres';
 
 type TraitShiftMap = Partial<Record<TraitName, number>>;
 
-export const ATMOSPHERE_TRAIT_SHIFT_MAP: Record<LifeTone, TraitShiftMap> = {
+export const ATMOSPHERE_TRAIT_SHIFT_MAP: Record<AtmosphereTone, TraitShiftMap> = {
   tender: {
     [TraitName.Empathy]: 10,
     [TraitName.Trust]: 8,
