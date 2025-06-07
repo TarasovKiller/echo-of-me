@@ -12,7 +12,8 @@ export type LifeBase = {
       | "oppressive"
       | "inspiring"
       | "eerie"
-      | "vibrant";
+      | "vibrant"
+      | "dramatic";
   };
   
   const randomChoice = <T>(arr: T[]): T =>
@@ -32,6 +33,7 @@ export type LifeBase = {
         "inspiring",
         "eerie",
         "vibrant",
+        "dramatic",
       ]),
     };
   }
