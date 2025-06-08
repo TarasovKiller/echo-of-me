@@ -3,21 +3,25 @@ import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { Dilemma } from '../types/dilemma';
 import { LifeTraits } from '../types/life';
-import { OpenAIClient } from '../llm/OpenAIClient';
-import { DilemmaBuilder } from '../builders/DilemmaBuilder';
 
 const generateDilemma = async (traits: LifeTraits): Promise<Dilemma> => {
-  const llm = new OpenAIClient(process.env.REACT_APP_OPENAI_API_KEY || '');
-  const builder = new DilemmaBuilder(llm);
-  return builder.createDilemma({
-    name: 'Аня',
-    age: 15,
-    lifeContext: JSON.stringify(traits),
-    countryContext: '',
-    settlementContext: '',
-    familyContext: '',
-    socialContext: '',
+  const response = await fetch('http://localhost:4000/api/dilemma', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: 'Аня',
+      age: 15,
+      traits,
+    }),
   });
+
+  if (!response.ok) {
+    throw new Error('Failed to generate dilemma');
+  }
+
+  return response.json();
 };
 
 const ScenePhase: React.FC = () => {

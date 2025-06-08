@@ -23,6 +23,6 @@
   },
   "include": [
     "src",
-    "server/main.ts"
+    "server/**/*.ts"
   ]
 }
