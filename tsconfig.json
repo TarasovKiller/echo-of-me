@@ -23,9 +23,6 @@
   },
   "include": [
     "src",
-    "server/main.ts",
-    "server/LifeBuilder.ts",
-    "server/OpenAIClient.ts",
-    "server/DilemmaBuilder.ts"
+    "server/main.ts"
   ]
 }

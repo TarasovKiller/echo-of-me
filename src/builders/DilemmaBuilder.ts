@@ -1,7 +1,7 @@
 // src/builders/DilemmaBuilder.ts
 
-import { Dilemma } from '../src/types/dilemma';
-import { makeDilemmaTemplate } from '../src/prompts/actions';
+import { Dilemma } from '../types/dilemma';
+import { makeDilemmaTemplate } from '../prompts/actions';
 import { LLMClient } from './LifeBuilder';
 
 export interface DilemmaContext {

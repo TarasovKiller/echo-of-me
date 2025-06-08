@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { OpenAIClient } = require('./OpenAIClient');
-const { LifeBuilder } = require('./LifeBuilder');
+const { OpenAIClient } = require('../src/llm/OpenAIClient');
+const { LifeBuilder } = require('../src/builders/LifeBuilder');
 const { generateLifeBase } = require('../src/utils/lifeGeneration');
 
 async function main() {
