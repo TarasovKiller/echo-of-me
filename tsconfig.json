@@ -22,6 +22,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "server/main.ts", "server/LifeBuilder.ts", "server/OpenAIClient.ts"  ]
+    "src",
+    "server/main.ts",
+    "server/LifeBuilder.ts",
+    "server/OpenAIClient.ts",
+    "server/DilemmaBuilder.ts"
+  ]
 }
