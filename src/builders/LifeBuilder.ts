@@ -1,9 +1,9 @@
 // src/builders/LifeBuilder.ts
 
-import { Life } from '../src/models/Life';
-import { LifeProfile } from '../src/types/life';
-import { generateLifePrompt } from '../src/prompts/life';
-import { LifeBase } from '../src/utils/lifeGeneration';
+import { Life } from '../models/Life';
+import { LifeProfile } from '../types/life';
+import { generateLifePrompt } from '../prompts/life';
+import { LifeBase } from '../utils/lifeGeneration';
 
 // Абстрактный интерфейс модели (можно заменить на OpenAI, Mistral, DeepSeek и т.д.)
 export interface LLMClient {

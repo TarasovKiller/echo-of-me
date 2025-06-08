@@ -3,8 +3,8 @@ import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { Dilemma } from '../types/dilemma';
 import { LifeTraits } from '../types/life';
-import { OpenAIClient } from '../../server/OpenAIClient';
-import { DilemmaBuilder } from '../../server/DilemmaBuilder';
+import { OpenAIClient } from '../llm/OpenAIClient';
+import { DilemmaBuilder } from '../builders/DilemmaBuilder';
 
 const generateDilemma = async (traits: LifeTraits): Promise<Dilemma> => {
   const llm = new OpenAIClient(process.env.REACT_APP_OPENAI_API_KEY || '');
