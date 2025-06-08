@@ -1,7 +1,7 @@
 // src/llm/OpenAIClient.ts
 
 import OpenAI from 'openai';
-import { LLMClient } from './LifeBuilder';
+import { LLMClient } from '../builders/LifeBuilder';
 
 export class OpenAIClient implements LLMClient {
   private openai: OpenAI;
