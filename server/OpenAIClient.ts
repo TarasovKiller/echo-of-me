@@ -37,10 +37,11 @@ export class OpenAIClient implements LLMClient {
     });
 
     const result = response.choices[0]?.message?.content;
+
     if (!result) {
       throw new Error('OpenRouter вернул пустой ответ');
     }
-
+    console.log(result)
     return result;
   }
 }

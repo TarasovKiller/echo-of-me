@@ -9,6 +9,10 @@ export function calculateAdviceImpact(advice: string, lifeTraits: LifeTraits, im
     independence: ['сама', 'сам', 'один', 'реши', 'свобода'],
     guilt: ['вина', 'прости', 'искупление', 'наказание'],
     trust: ['доверие', 'верь', 'поддержи', 'откройся'],
+    impulsivity: ['импульс', 'порыв', 'немедленно', 'сразу'],
+    manipulativeness: ['манипулируй', 'давление', 'заставь', 'подтолкни'],
+    shame: ['стыд', 'позор', 'осуждение', 'неловко'],
+    resilience: ['стойкость', 'выдержка', 'устойчивость', 'силы'],
   };
 
   const matchedTraits: (keyof LifeTraits)[] = [];
