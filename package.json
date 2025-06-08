@@ -26,6 +26,7 @@
   },
   "scripts": {
     "gen-life": "ts-node server/main.ts",
+    "start-server": "ts-node server/apiServer.ts",
     "preview:values": "ts-node scripts/preview-values.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
