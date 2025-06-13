@@ -17,25 +17,25 @@ This project uses environment variables. See `.env.example` for a sample.
 Установите зависимости:
 
 ```bash
-npm install
+yarn install
 ```
 
 ### Запуск фронтенда
 
 ```bash
-npm start
+yarn start
 ```
 
 ### Генерация профиля Life
 
 ```bash
-npm run gen-life
+yarn gen-life
 ```
 
 ### Запуск сервера API
 
 ```bash
-npm run start-server
+yarn start-server
 ```
 
 Сервер использует переменную `OPENAI_API_KEY` из `.env` и по умолчанию слушает порт `4000`.
@@ -48,14 +48,14 @@ npm run start-server
 OPENAI_API_KEY=ваш_ключ
 ```
 
-Этот ключ используется скриптом `npm run gen-life` для обращения к OpenRouter.
+Этот ключ используется скриптом `yarn gen-life` для обращения к OpenRouter.
 
 ## Скрипты
 
 Дополнительные стандартные команды от Create React App сохранены и перечислены ниже:
 
-* `npm test` — запускает тесты в режиме watch.
-* `npm run build` — собирает оптимизированную production‑версию.
-* `npm run eject` — извлекает конфигурацию (безвозвратно).
+* `yarn test` — запускает тесты в режиме watch.
+* `yarn build` — собирает оптимизированную production‑версию.
+* `yarn eject` — извлекает конфигурацию (безвозвратно).
 
 Подробнее о возможностях смотрите в [документации CRA](https://facebook.github.io/create-react-app/docs/getting-started).
