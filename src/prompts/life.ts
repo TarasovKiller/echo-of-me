@@ -38,23 +38,22 @@ atmosphere: ${atmosphere}
 
 📦 Формат ответа — строго JSON:
 
-{{
+{{'{{'}}
   "name": string,
   "values": [
-    {{
+    {{'{{'}}
       "name": string,
-      "meaning": string,
-      "type": ["instrumental"] | ["terminal"] | ["instrumental", "terminal"],
+      "type": ["instrumental"] или ["terminal"] или оба,
       "source": ["biological", "social", "experience"],
-      "category": string, // например "Self-Direction"
+      "category": string (например "Self-Direction"),
       "sphere": ["personal", "interpersonal", "societal"],
       "emotionalTone": "growth_oriented" | "anxiety_based" | "altruistic" | "hedonistic",
       "stability": "low" | "medium" | "high",
       "measurable": true | false,
-      "valueScore": number // от 20 до 95
-    }}
+      "valueScore": число от 20 до 95
+    {{'}}'}}
   ]
-}}
+{{'}}'}}
 
 ⚠️ Только корректный JSON без Markdown, комментариев или заголовков.
 `.trim();
@@ -227,3 +226,28 @@ export const generateLifePrompt = (base: LifeBase): string => {
   const finalInstruction = `На основе результатов трёх шагов собери единый JSON-объект со всеми полями персонажа: name, gender, age, atmosphere, culture, coreTraits, hiddenDesire, coreFear, philosophy, selfNarrative, awarenessLevel, moralCompass. Ответ только в виде JSON.`;
   return [step1, '', step2, '', step3, '', finalInstruction].join('\n');
 };
+
+export const assembleFinalProfilePrompt = (
+  step1: any,
+  step2: any,
+  step3: any
+): string => `
+Собери итоговый JSON-профиль персонажа на основе трёх этапов. Все поля обязательны:
+
+{
+  "name": "${step2.name}",
+  "gender": "${step2.gender}",
+  "age": ${step2.age},
+  "atmosphere": "${step3.culture?.settingStyle ?? 'нейтральная'}",
+  "coreTraits": ${JSON.stringify(step2.coreTraits)},
+  "hiddenDesire": "${step1.hiddenDesire}",
+  "coreFear": "${step1.coreFear}",
+  "philosophy": "${step3.philosophy}",
+  "selfNarrative": "${step3.selfNarrative}",
+  "awarenessLevel": "${step2.awarenessLevel}",
+  "culture": ${JSON.stringify(step3.culture)},
+  "moralCompass": ${JSON.stringify(step3.moralCompass)}
+}
+
+Ответ строго в виде JSON.
+`.trim();
