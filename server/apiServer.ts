@@ -8,17 +8,19 @@ import { DilemmaBuilder } from '../src/builders/DilemmaBuilder';
 import { LifeTraits } from '../src/types/life';
 
 dotenv.config();
+const apiKey = process.env.OPENAI_API_KEY;
+if (!apiKey) {
+  console.error('OPENAI_API_KEY not set');
+  process.exit(1);
+}
 
+const llm = new OpenAIClient(apiKey);
+const builder = new DilemmaBuilder(llm);
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/api/dilemma', async (req: Request, res: Response) => {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    res.status(500).json({ error: 'OPENAI_API_KEY not set' });
-    return;
-  }
 
   const {
     name = 'Аня',
@@ -35,8 +37,6 @@ app.post('/api/dilemma', async (req: Request, res: Response) => {
     return;
   }
 
-  const llm = new OpenAIClient(apiKey);
-  const builder = new DilemmaBuilder(llm);
 
   try {
     const dilemma = await builder.createDilemma({
