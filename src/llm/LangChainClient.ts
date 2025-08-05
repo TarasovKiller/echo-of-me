@@ -1,5 +1,5 @@
-import { ChatOpenAI } from 'langchain/chat_models/openai';
-import { JsonOutputParser } from 'langchain/output_parsers';
+import { ChatOpenAI } from '@langchain/openai';
+import { JsonOutputParser } from '@langchain';
 import { LLMClient } from '../builders/LifeBuilder';
 
 export class LangChainClient implements LLMClient {

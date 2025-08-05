@@ -1604,7 +1604,7 @@
     zod "^3.25.32"
     zod-to-json-schema "^3.22.3"
 
-"@langchain/openai@>=0.1.0 <0.7.0":
+"@langchain/openai@>=0.1.0 <0.7.0", "@langchain/openai@^0.6.3":
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/@langchain/openai/-/openai-0.6.3.tgz#eaaa75bc71afae74dbb76ba4d9e15ef986dee80b"
   integrity sha512-dSNuXDTJitDzN8D2wFNqWVELDbBRhMpJiFeiWpHjfPuq7R6wSjzNNY/Uk6x+FLpvbOs/zKNWy5+0q0p3KrCjRQ==
