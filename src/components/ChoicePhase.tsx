@@ -64,7 +64,7 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
   return (
     <div>
       <p>Выберите совет для дилеммы:</p>
-      <p><strong>{dilemma.text}</strong></p>
+      <p><strong>{dilemma.situation}</strong></p>
       {Object.entries(advices).map(([playerId, advice]) => (
         <button key={playerId} onClick={() => chooseAdvice(playerId)}>
           {advice}
