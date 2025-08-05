@@ -29,19 +29,48 @@ export class LifeBuilder {
       console.log(valuesJson.values);
       
       // Шаг 2: генерация имени и черт
-      const step2Prompt = step2TemplateStr(valuesJson.name,base.age, base.gender, base.atmosphere, valuesJson.values);
-      const traitsJson = await this.extractJsonFromLLM(step2Prompt);
-      
-      return new Life(traitsJson);
-      // // Шаг 3: генерация философии и культуры
-      // const step3Prompt = step3TemplateStr(base, valuesJson, traitsJson);
-      // const contextJson = await this.extractJsonFromLLM(step3Prompt);
+      const step2Prompt = step2TemplateStr(
+        valuesJson.name,
+        base.age,
+        base.gender,
+        base.atmosphere,
+        JSON.stringify(valuesJson.values)
+      );
+      const step2Json = await this.extractJsonFromLLM(step2Prompt);
 
-      // // Сборка финального JSON
-      // const finalPrompt = assembleFinalProfilePrompt(valuesJson, traitsJson, contextJson);
-      // const finalJson = await this.extractJsonFromLLM(finalPrompt);
+      // Шаг 3: генерация философии и культуры
+      const contextForStep3 = JSON.stringify({
+        values: valuesJson.values,
+        coreTraits: step2Json.coreTraits,
+        hiddenDesire: step2Json.hiddenDesire,
+        coreFear: step2Json.coreFear,
+        atmosphere: base.atmosphere,
+      });
+      const step3Prompt = step3TemplateStr(
+        valuesJson.name,
+        base.age,
+        base.gender,
+        contextForStep3
+      );
+      const step3Json = await this.extractJsonFromLLM(step3Prompt);
 
-      // return new Life(finalJson as LifeProfile);
+      // Сборка итогового профиля
+      const finalProfile: LifeProfile = {
+        name: valuesJson.name,
+        gender: base.gender,
+        age: base.age,
+        atmosphere: base.atmosphere,
+        culture: step3Json.culture,
+        coreTraits: step2Json.coreTraits,
+        hiddenDesire: step2Json.hiddenDesire,
+        coreFear: step2Json.coreFear,
+        philosophy: step3Json.philosophy,
+        selfNarrative: step3Json.selfNarrative,
+        awarenessLevel: step3Json.awarenessLevel,
+        moralCompass: step3Json.moralCompass,
+      };
+
+      return new Life(finalProfile);
     } catch (err) {
       throw new Error(`Ошибка создания Life: ${err}`);
     }
