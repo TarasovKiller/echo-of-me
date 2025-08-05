@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { OpenAIClient } = require('../src/llm/OpenAIClient');
+const { LangChainClient } = require('../src/llm/LangChainClient');
 const { LifeBuilder } = require('../src/builders/LifeBuilder');
 const { generateLifeBase } = require('../src/utils/lifeGeneration');
 
@@ -13,7 +13,7 @@ async function main() {
     process.exit(1);
   }
 
-  const llm = new OpenAIClient(apiKey);
+  const llm = new LangChainClient(apiKey);
   const builder = new LifeBuilder(llm);
   const base = generateLifeBase();
   const life = await builder.createLife(base);

@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import { OpenAIClient } from '../src/llm/OpenAIClient';
+import { LangChainClient } from '../src/llm/LangChainClient';
 import { DilemmaBuilder } from '../src/builders/DilemmaBuilder';
 import { LifeBuilder } from '../src/builders/LifeBuilder';
 import { generateLifeBase } from '../src/utils/lifeGeneration';
@@ -18,7 +18,7 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const llm = new OpenAIClient(apiKey);
+const llm = new LangChainClient(apiKey);
 const builder = new DilemmaBuilder(llm);
 const lifeBuilder = new LifeBuilder(llm);
 const app = express();
