@@ -6,13 +6,21 @@ import { GamePhase } from '../constants/gamePhases';
 const SetupPhase: React.FC = () => {
   const { gameState, setGameState } = useOptimizedGameState();
 
-  const startGame = () => {
-    const newState = {
-      ...gameState,
-      phase: GamePhase.Scene,
-      scenes: [{dilemma: null, advices: {}, chosenAdvice: null }],
-    };
-    setGameState(newState);
+  const startGame = async () => {
+    try {
+      const res = await fetch('http://localhost:4000/api/life');
+      const life = await res.json();
+      const newState = {
+        ...gameState,
+        phase: GamePhase.Scene,
+        life,
+        soulVector: 0,
+        scenes: [{ dilemma: null, advices: {}, chosenAdvice: null }],
+      };
+      setGameState(newState);
+    } catch (err) {
+      console.error('Ошибка генерации жизни', err);
+    }
   };
 
   const enoughPlayers = Object.keys(gameState.players).length >= 2;

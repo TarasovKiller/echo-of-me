@@ -3,18 +3,18 @@ import { isHost } from 'playroomkit';
 import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { Dilemma } from '../types/dilemma';
-import { LifeTraits } from '../types/life';
+import { LifeProfile } from '../types/life';
 
-const generateDilemma = async (traits: LifeTraits): Promise<Dilemma> => {
+const generateDilemma = async (life: LifeProfile): Promise<Dilemma> => {
   const response = await fetch('http://localhost:4000/api/dilemma', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: 'Аня',
-      age: 15,
-      traits,
+      name: life.name,
+      age: life.age,
+      traits: life.coreTraits,
     }),
   });
 
@@ -38,7 +38,8 @@ const ScenePhase: React.FC = () => {
         !gameState.scenes[gameState.currentScene].dilemma
       ) {
         try {
-          const newDilemma = await generateDilemma(gameState.lifeTraits);
+          if (!gameState.life) return;
+          const newDilemma = await generateDilemma(gameState.life);
           const newScenes = gameState.scenes.map((scene, index) =>
             index === gameState.currentScene
               ? { ...scene, dilemma: newDilemma }
@@ -69,7 +70,7 @@ const ScenePhase: React.FC = () => {
       {error && <p>{error}</p>}
         {currentDilemma ? (
         <>
-          <p>Текущаsя дилемма: {currentDilemma.situation}</p>
+          <p>Текущая дилемма: {currentDilemma.situation}</p>
           <p>Важность: {currentDilemma.importance}</p>
           <p>
             Связанные черты: {currentDilemma.relatedTraits.join(', ')}

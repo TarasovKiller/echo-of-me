@@ -29,22 +29,23 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
     const state = { ...gameState };
     const chosenAdviceText = state.scenes[state.currentScene].advices[playerId];
 
-    const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
+    // const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
 
     // Обновляем выбранный совет
     state.scenes[state.currentScene].chosenAdvice = playerId;
 
     // Обновим черты Жизни
-    for (const trait of Object.keys(impact.emotionalEffect)) {
-      const key = trait as keyof LifeTraits;
-      state.lifeTraits[key] += impact.emotionalEffect[key]!;
+    if (state.life) {
+      // TODO: Разкоментить если актуально
+      // for (const trait in reaction.emotionalEffect) {
+      //   const key = trait as keyof LifeTraits;
+      //   state.life.coreTraits[key] += reaction.emotionalEffect[key]!;
+      // }
+      // state.soulVector += reaction.soulVectorChange;
     }
 
-    // Обновим вектор души
-    // state.soulVector += impact.soulShift;
-
     // Следующая сцена или эпилог
-    if (state.currentScene < 4) {
+    if (state.currentScene < 2) {
       state.currentScene += 1;
       state.phase = GamePhase.Scene;
 

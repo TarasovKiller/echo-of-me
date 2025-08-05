@@ -10,16 +10,7 @@ export const defaultGameState: GameState = {
     advices: {},
     chosenAdvice: null,
   }],
-  lifeTraits: {
-    courage: 50,
-    empathy: 50,
-    independence: 50,
-    guilt: 50,
-    trust: 50,
-    impulsivity: 50,
-    manipulativeness: 50,
-    shame: 50,
-    resilience: 50
-  },
+  life: null,
+  soulVector: 0,
 
 };

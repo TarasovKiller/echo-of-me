@@ -5,7 +5,11 @@ import dotenv from 'dotenv';
 
 import { OpenAIClient } from '../src/llm/OpenAIClient';
 import { DilemmaBuilder } from '../src/builders/DilemmaBuilder';
-import { LifeTraits } from '../src/types/life';
+import { LifeBuilder } from '../src/builders/LifeBuilder';
+import { generateLifeBase } from '../src/utils/lifeGeneration';
+import { LifeProfile, LifeTraits } from '../src/types/life';
+import { Dilemma } from '../src/types/dilemma';
+import { adviceReactionTemplate } from '../src/prompts/actions';
 
 dotenv.config();
 const apiKey = process.env.OPENAI_API_KEY;
@@ -16,9 +20,20 @@ if (!apiKey) {
 
 const llm = new OpenAIClient(apiKey);
 const builder = new DilemmaBuilder(llm);
+const lifeBuilder = new LifeBuilder(llm);
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get('/api/life', async (_req: Request, res: Response) => {
+  try {
+    const base = generateLifeBase();
+    const life = await lifeBuilder.createLife(base);
+    res.json(life.getProfile());
+  } catch (err: any) {
+    res.status(500).json({ error: String(err) });
+  }
+});
 
 app.post('/api/dilemma', async (req: Request, res: Response) => {
 
