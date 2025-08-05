@@ -1,5 +1,5 @@
 import { ChatOpenAI } from '@langchain/openai';
-import { JsonOutputParser } from '@langchain';
+import { JsonOutputParser } from '@langchain/core/output_parsers';
 import { LLMClient } from '../builders/LifeBuilder';
 
 export class LangChainClient implements LLMClient {
@@ -8,7 +8,7 @@ export class LangChainClient implements LLMClient {
   constructor(
     apiKey: string = process.env.OPENAI_API_KEY || '',
     model = 'gpt-4o-mini',
-    baseURL: string = process.env.OPENAI_BASE_URL || 'https://openrouter.ai/api/v1'
+    baseUrl: string = process.env.OPENAI_BASE_URL || 'https://openrouter.ai/api/v1'
   ) {
     if (!apiKey) {
       throw new Error('OPENAI_API_KEY is not set');
@@ -17,8 +17,8 @@ export class LangChainClient implements LLMClient {
     this.chat = new ChatOpenAI({
       apiKey,
       model,
-      baseURL,
       configuration: {
+        baseURL: baseUrl,
         defaultHeaders: {
           'HTTP-Referer': process.env.HTTP_REFERER || 'http://localhost:3000',
           'X-Title': 'echo-of-me',
