@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Echo of Me
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+"Echo of Me" — это кооперативная браузерная игра, в которой игроки влияют на становление личности виртуального подростка. Один из участников играет за персонажа **Life**, а остальные дают ему советы, помогая пройти через дилеммы и меняя его внутренние черты. Психологический профиль Life генерируется при помощи LLM, поэтому для запуска понадобится ключ API.
+
+## Environment Variables
+
+This project uses environment variables. See `.env.example` for a sample.
 
 ## Available Scripts
+Проект состоит из двух основных модулей:
 
-In the project directory, you can run:
+* **client** (`src/`) — фронтенд на React. Здесь реализованы фазы игры, назначение ролей и взаимодействие между игроками.
+* **server** (`server/`) — небольшой Node.js‑скрипт, который обращается к OpenRouter API и создаёт стартовый профиль Life.
 
-### `npm start`
+## Установка и запуск
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Установите зависимости:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+npm install
+```
 
-### `npm test`
+### Запуск фронтенда
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm start
+```
 
-### `npm run build`
+### Генерация профиля Life
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm run gen-life
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Запуск сервера API
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run start-server
+```
 
-### `npm run eject`
+Сервер использует переменную `OPENAI_API_KEY` из `.env` и по умолчанию слушает порт `4000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Переменные окружения
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Перед запуском создайте файл `.env` и укажите в нём ключ доступа к LLM:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```env
+OPENAI_API_KEY=ваш_ключ
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Этот ключ используется скриптом `npm run gen-life` для обращения к OpenRouter.
 
-## Learn More
+## Скрипты
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Дополнительные стандартные команды от Create React App сохранены и перечислены ниже:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* `npm test` — запускает тесты в режиме watch.
+* `npm run build` — собирает оптимизированную production‑версию.
+* `npm run eject` — извлекает конфигурацию (безвозвратно).
+
+Подробнее о возможностях смотрите в [документации CRA](https://facebook.github.io/create-react-app/docs/getting-started).

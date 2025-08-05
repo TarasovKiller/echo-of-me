@@ -38,23 +38,22 @@ atmosphere: ${atmosphere}
 
 📦 Формат ответа — строго JSON:
 
-{{
+{{'{{'}}
   "name": string,
   "values": [
-    {{
+    {{'{{'}}
       "name": string,
-      "meaning": string,
-      "type": ["instrumental"] | ["terminal"] | ["instrumental", "terminal"],
+      "type": ["instrumental"] или ["terminal"] или оба,
       "source": ["biological", "social", "experience"],
-      "category": string, // например "Self-Direction"
+      "category": string (например "Self-Direction"),
       "sphere": ["personal", "interpersonal", "societal"],
       "emotionalTone": "growth_oriented" | "anxiety_based" | "altruistic" | "hedonistic",
       "stability": "low" | "medium" | "high",
       "measurable": true | false,
-      "valueScore": number // от 20 до 95
-    }}
+      "valueScore": число от 20 до 95
+    {{'}}'}}
   ]
-}}
+{{'}}'}}
 
 ⚠️ Только корректный JSON без Markdown, комментариев или заголовков.
 `.trim();
@@ -157,7 +156,7 @@ export const step3TemplateStr = (
 
 ---
 
-🎯 Сгенерируй 3 поля:
+🎯 Сгенерируй 5 полей:
 
 1. 🌀 \`philosophy\` — кредо или поза, с которой ты идешь по жизни.  
 Это **не истина**, а то, что ты себе внушаешь, чтобы выжить или выглядеть сильным.  
@@ -185,6 +184,18 @@ export const step3TemplateStr = (
 - "vague" — переплетены, но не осознаны
 - "conscious" — почти совпадает, но искажена
 
+4. 🌍 \`culture\` — твой культурный фон.
+  Объект с полями:
+  - \`regionName\`: вымышленное название региона;
+  - \`household\`: кратко опиши устройство семьи;
+  - \`values\`: массив культурных установок;
+  - \`settingStyle\`: визуально-эмоциональное описание окружения.
+
+5. 🧭 \`moralCompass\` — твоя моральная установка.
+  Объект с полями:
+  - \`value\`: правило или принцип;
+  - \`origin\`: "cultural" | "learned" | "trauma-based";
+  - \`stability\`: число от 0 до 100.
 ---
 
 📎 Контекст:
@@ -196,8 +207,70 @@ ${context}
 {
   "philosophy": string,
   "selfNarrative": string,
-  "awarenessLevel": "unconscious" | "vague" | "conscious"
+  "awarenessLevel": "unconscious" | "vague" | "conscious",
+  "culture": {
+    "regionName": string,
+    "household": string,
+    "values": string[],
+    "settingStyle": string
+  },
+  "moralCompass": {
+    "value": string,
+    "origin": "cultural" | "learned" | "trauma-based",
+    "stability": number
+  }
 }
 
 ❌ Без Markdown, заголовков, пояснений. Только JSON.
+`.trim();
+
+
+import { LifeBase } from '../utils/lifeGeneration';
+
+export const generateLifePrompt = (base: LifeBase): string => {
+  const step1 = valuesTemplateStr(base.gender, base.age, base.atmosphere);
+  const namePlaceholder = '{{name}}';
+  const valuesPlaceholder = '{{values}}';
+  const step2 = step2TemplateStr(
+    namePlaceholder,
+    base.age,
+    base.gender,
+    base.atmosphere,
+    valuesPlaceholder
+  );
+  const context = `{
+  "values": ${valuesPlaceholder},
+  "coreTraits": {{coreTraits}},
+  "hiddenDesire": "{{hiddenDesire}}",
+  "coreFear": "{{coreFear}}",
+  "atmosphere": "${base.atmosphere}"
+}`;
+  const step3 = step3TemplateStr(namePlaceholder, base.age, base.gender, context);
+  const finalInstruction = `На основе результатов трёх шагов собери единый JSON-объект со всеми полями персонажа: name, gender, age, atmosphere, culture, coreTraits, hiddenDesire, coreFear, philosophy, selfNarrative, awarenessLevel, moralCompass. Ответ только в виде JSON.`;
+  return [step1, '', step2, '', step3, '', finalInstruction].join('\n');
+};
+
+export const assembleFinalProfilePrompt = (
+  step1: any,
+  step2: any,
+  step3: any
+): string => `
+Собери итоговый JSON-профиль персонажа на основе трёх этапов. Все поля обязательны:
+
+{
+  "name": "${step2.name}",
+  "gender": "${step2.gender}",
+  "age": ${step2.age},
+  "atmosphere": "${step3.culture?.settingStyle ?? 'нейтральная'}",
+  "coreTraits": ${JSON.stringify(step2.coreTraits)},
+  "hiddenDesire": "${step1.hiddenDesire}",
+  "coreFear": "${step1.coreFear}",
+  "philosophy": "${step3.philosophy}",
+  "selfNarrative": "${step3.selfNarrative}",
+  "awarenessLevel": "${step2.awarenessLevel}",
+  "culture": ${JSON.stringify(step3.culture)},
+  "moralCompass": ${JSON.stringify(step3.moralCompass)}
+}
+
+Ответ строго в виде JSON.
 `.trim();

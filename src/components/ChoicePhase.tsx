@@ -1,7 +1,7 @@
 // src/components/ChoicePhase.tsx
 
 import React from 'react';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 import { GamePhase } from '../constants/gamePhases';
 import { PlayerRole } from '../constants/roles';
 import { calculateAdviceImpact } from '../utils/calculateAdviceImpact';
@@ -12,7 +12,7 @@ interface ChoicePhaseProps {
 }
 
 const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
-  const { gameState, setGameState } = useGameState();
+  const { gameState, setGameState } = useOptimizedGameState();
   const currentSceneData = gameState.scenes[gameState.currentScene];
   const advices = currentSceneData.advices;
   const dilemma = currentSceneData.dilemma;
@@ -29,22 +29,23 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
     const state = { ...gameState };
     const chosenAdviceText = state.scenes[state.currentScene].advices[playerId];
 
-    const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
+    // const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
 
     // Обновляем выбранный совет
     state.scenes[state.currentScene].chosenAdvice = playerId;
 
     // Обновим черты Жизни
-    for (const trait of Object.keys(impact.emotionalEffect)) {
-      const key = trait as keyof LifeTraits;
-      state.lifeTraits[key] += impact.emotionalEffect[key]!;
+    if (state.life) {
+      // TODO: Разкоментить если актуально
+      // for (const trait in reaction.emotionalEffect) {
+      //   const key = trait as keyof LifeTraits;
+      //   state.life.coreTraits[key] += reaction.emotionalEffect[key]!;
+      // }
+      // state.soulVector += reaction.soulVectorChange;
     }
 
-    // Обновим вектор души
-    // state.soulVector += impact.soulShift;
-
     // Следующая сцена или эпилог
-    if (state.currentScene < 4) {
+    if (state.currentScene < 2) {
       state.currentScene += 1;
       state.phase = GamePhase.Scene;
 
@@ -64,7 +65,7 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
   return (
     <div>
       <p>Выберите совет для дилеммы:</p>
-      <p><strong>{dilemma.text}</strong></p>
+      <p><strong>{dilemma.situation}</strong></p>
       {Object.entries(advices).map(([playerId, advice]) => (
         <button key={playerId} onClick={() => chooseAdvice(playerId)}>
           {advice}

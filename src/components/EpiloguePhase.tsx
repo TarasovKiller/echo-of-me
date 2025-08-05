@@ -1,8 +1,8 @@
 import React from 'react';
-import { useGameState } from '../hooks/useGameState';
+import { useOptimizedGameState } from '../hooks/useOptimizedGameState';
 
 const EpiloguePhase: React.FC = () => {
-  const { gameState } = useGameState();
+  const { gameState } = useOptimizedGameState();
 
   const getEpilogue = (soulVector: number) => {
     if (soulVector > 3) return 'Вы прожили жизнь, полную добра.';

@@ -12,7 +12,8 @@ export type LifeBase = {
       | "oppressive"
       | "inspiring"
       | "eerie"
-      | "vibrant";
+      | "vibrant"
+      | "dramatic";
   };
   
   const randomChoice = <T>(arr: T[]): T =>
@@ -21,7 +22,7 @@ export type LifeBase = {
   export function generateLifeBase(): LifeBase {
     return {
       gender: randomChoice(["male", "female"]),
-      age: Math.floor(Math.random() * (14 - 8 + 1)) + 8,
+      age: Math.floor(Math.random() * 7) + 8,
       atmosphere: randomChoice([
         "tender",
         "chaotic",
@@ -32,6 +33,7 @@ export type LifeBase = {
         "inspiring",
         "eerie",
         "vibrant",
+        "dramatic",
       ]),
     };
   }

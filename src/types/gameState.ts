@@ -1,6 +1,6 @@
 import { PlayerRole } from '../constants/roles';
 import { GamePhase } from '../constants/gamePhases';
-import { LifeTraits } from './life';
+import { LifeProfile } from './life';
 import { Dilemma } from './dilemma'; // создадим тип отдельно
 
 export interface GameState {
@@ -18,6 +18,7 @@ export interface GameState {
       };
       chosenAdvice: string | null; // Выбранный совет (ID игрока)
     }>;
-    lifeTraits: LifeTraits;
+    life: LifeProfile | null; // Профиль Жизни
+    soulVector: number; // Вектор души
 
   }
