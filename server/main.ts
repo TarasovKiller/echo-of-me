@@ -1,9 +1,9 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { LangChainClient } = require('../src/llm/LangChainClient');
-const { LifeBuilder } = require('../src/builders/LifeBuilder');
-const { generateLifeBase } = require('../src/utils/lifeGeneration');
+import { LangChainFactory } from '../src/llm/LangChainFactory';
+import { generateLifeBase } from '../src/utils/lifeGeneration';
+import { Life } from '../src/models/Life';
 
 async function main() {
   const apiKey = process.env.OPENAI_API_KEY;
@@ -13,21 +13,38 @@ async function main() {
     process.exit(1);
   }
 
-  const llm = new LangChainClient(apiKey);
-  const builder = new LifeBuilder(llm);
-  const base = generateLifeBase();
-  const life = await builder.createLife(base);
+  try {
+    // Инициализация LangChain фабрики
+    const langChainFactory = LangChainFactory.getInstance(apiKey);
+    const lifeChain = langChainFactory.getLifeGenerationChain();
+    
+    // Генерация базовых параметров
+    const base = generateLifeBase();
+    console.log('🎲 Базовые параметры:', base);
+    
+    // Генерация полной личности через LangChain
+    const lifeProfile = await lifeChain.generateLife(base);
+    
+    // Создание экземпляра Life для дополнительных методов
+    const life = new Life(lifeProfile);
 
-  console.log('\n🧠 Профиль Жизни:\n');
-  console.log(life.describeSelf());
+    console.log('\n🧠 Профиль Жизни:\n');
+    console.log(life.describeSelf());
 
-  console.log('\n📦 JSON-профиль:\n');
-  console.dir(life.getProfile(), { depth: null, colors: true });
-  
+    console.log('\n📦 JSON-профиль:\n');
+    console.dir(life.getProfile(), { depth: null, colors: true });
+    
+    console.log('\n🔮 Вектор души:', life.getSoulVector());
+    console.log('🧭 Моральный компас:', life.getMoralCompass());
+    
+  } catch (error) {
+    console.error('🚨 Ошибка:', error);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
-  console.error('🚨 Ошибка:', err);
+  console.error('🚨 Критическая ошибка:', err);
   process.exit(1);
 });
 

@@ -8,7 +8,12 @@ const SetupPhase: React.FC = () => {
 
   const startGame = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/life');
+      const res = await fetch('http://localhost:4000/api/generate-life', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const life = await res.json();
       const newState = {
         ...gameState,

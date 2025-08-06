@@ -25,23 +25,51 @@ const ChoicePhase: React.FC<ChoicePhaseProps> = ({ role }) => {
     return <div>Жизнь выбирает совет...</div>;
   }
 
-  const chooseAdvice = (playerId: string) => {
+  const chooseAdvice = async (playerId: string) => {
     const state = { ...gameState };
     const chosenAdviceText = state.scenes[state.currentScene].advices[playerId];
-
-    // const impact = calculateAdviceImpact(chosenAdviceText, state.lifeTraits, dilemma.importance);
 
     // Обновляем выбранный совет
     state.scenes[state.currentScene].chosenAdvice = playerId;
 
-    // Обновим черты Жизни
-    if (state.life) {
-      // TODO: Разкоментить если актуально
-      // for (const trait in reaction.emotionalEffect) {
-      //   const key = trait as keyof LifeTraits;
-      //   state.life.coreTraits[key] += reaction.emotionalEffect[key]!;
-      // }
-      // state.soulVector += reaction.soulVectorChange;
+    // Анализируем влияние совета на Life
+    if (state.life && dilemma) {
+      try {
+        const response = await fetch('http://localhost:4000/api/analyze-advice', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            advice: chosenAdviceText,
+            lifeProfile: state.life,
+            situation: dilemma.situation,
+            question: dilemma.question,
+            dilemmaContext: dilemma.context,
+          }),
+        });
+
+        if (response.ok) {
+          const analysis = await response.json();
+          
+          // Применяем эмоциональное влияние
+          if (analysis.emotionalEffect && state.life) {
+            for (const trait in analysis.emotionalEffect) {
+              const key = trait as keyof LifeTraits;
+              if (state.life.coreTraits[key] !== undefined) {
+                state.life.coreTraits[key] += analysis.emotionalEffect[key]!;
+              }
+            }
+          }
+          
+          // Обновляем вектор души
+          if (analysis.soulShift) {
+            state.soulVector += analysis.soulShift;
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка анализа совета:', error);
+      }
     }
 
     // Следующая сцена или эпилог

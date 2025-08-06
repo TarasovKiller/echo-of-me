@@ -6,15 +6,13 @@ import { Dilemma } from '../types/dilemma';
 import { LifeProfile } from '../types/life';
 
 const generateDilemma = async (life: LifeProfile): Promise<Dilemma> => {
-  const response = await fetch('http://localhost:4000/api/dilemma', {
+  const response = await fetch('http://localhost:4000/api/generate-dilemma', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: life.name,
-      age: life.age,
-      traits: life.coreTraits,
+      lifeProfile: life,
     }),
   });
 
@@ -70,11 +68,11 @@ const ScenePhase: React.FC = () => {
       {error && <p>{error}</p>}
         {currentDilemma ? (
         <>
-          <p>Текущая дилемма: {currentDilemma.situation}</p>
-          <p>Важность: {currentDilemma.importance}</p>
-          <p>
-            Связанные черты: {currentDilemma.relatedTraits.join(', ')}
-          </p>
+          <p><strong>Дилемма:</strong> {currentDilemma.situation}</p>
+          <p><strong>Вопрос:</strong> {currentDilemma.question}</p>
+          <p><strong>Важность:</strong> {currentDilemma.importance}/10</p>
+          <p><strong>Контекст:</strong> {currentDilemma.context}</p>
+          <p><strong>Связанные черты:</strong> {currentDilemma.relatedTraits.join(', ')}</p>
         </>
       ) : (
         <p>Загрузка дилеммы...</p>

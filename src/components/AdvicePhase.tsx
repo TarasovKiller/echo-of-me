@@ -33,6 +33,8 @@ const AdvicePhase: React.FC = () => {
   return (
     <div>
       <p><strong>Дилемма:</strong> {dilemma?.situation}</p>
+      <p><strong>Вопрос:</strong> {dilemma?.question}</p>
+      <p><strong>Контекст:</strong> {dilemma?.context}</p>
       {role === PlayerRole.Life ? (
         <p>Ожидание советов...</p>
       ) : (
